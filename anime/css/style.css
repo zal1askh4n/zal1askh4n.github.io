@@ -1,0 +1,643 @@
+/* Определение цветовых переменных для всего проекта */
+:root {
+    --bg-color: #0a0a0a; /* Основной цвет фона (тёмный) */
+    --text-color: #f0f0f0; /* Основной цвет текста (светлый) */
+    --accent-color: #e63946; /* Акцентный цвет (красный) */
+    --secondary-color: #1a1a1a; /* Вторичный цвет фона */
+    --highlight-color: #ff5252; /* Цвет выделения */
+    --dark-accent: #b52b37; /* Тёмный акцент для эффектов наведения */
+}
+
+/* Сброс стандартных стилей браузера и установка базовых стилей */
+* {margin:0; padding:0; box-sizing:border-box}
+body {
+    font-family:'Montserrat',sans-serif; /* Основной шрифт сайта */
+    background-color:var(--bg-color);
+    color:var(--text-color);
+    line-height:1.6; /* Высота строки для лучшей читаемости */
+}
+
+/* Контейнер для содержимого - центрирование и ограничение ширины */
+.container {max-width:1200px; margin:0 auto; padding:0 20px}
+
+/* Стили для шапки сайта */
+header {
+    padding:15px 0;
+    position:fixed; /* Фиксированная позиция */
+    width:100%;
+    top:0;
+    z-index:1000; /* Высокий z-index чтобы быть поверх других элементов */
+    background-color:rgba(10,10,10,0.95); /* Полупрозрачный фон */
+    backdrop-filter:blur(10px); /* Размытие под шапкой для современных браузеров */
+    border-bottom:1px solid #222;
+    box-shadow:0 2px 10px rgba(0,0,0,0.3); /* Тень для выделения */
+    transition:all 0.3s; /* Плавный переход для анимации */
+}
+
+/* Стиль для шапки при прокрутке */
+header.scrolled {padding:10px 0; background-color:rgba(10,10,10,0.98)}
+
+/* Навигационная панель - распределение элементов */
+.navbar {display:flex; justify-content:space-between; align-items:center}
+
+/* Стиль для логотипа */
+.logo {
+    font-size:1.5rem;
+    font-weight:700;
+    color:var(--accent-color);
+    text-transform:uppercase; /* Все буквы заглавные */
+    letter-spacing:2px; /* Расстояние между буквами */
+    display:flex;
+    align-items:center;
+}
+
+/* Стиль SVG иконки в логотипе */
+.logo svg {margin-right:10px; fill:var(--accent-color)}
+
+/* Стиль для навигационных ссылок */
+.nav-links {display:flex; list-style:none}
+.nav-links li {margin-left:30px; position:relative}
+
+/* Стиль для отдельных ссылок в навигации */
+.nav-links a {
+    color:var(--text-color);
+    text-decoration:none;
+    font-weight:600;
+    text-transform:uppercase;
+    font-size:0.9rem;
+    letter-spacing:1px;
+    transition:color 0.3s;
+    padding:5px 0;
+    position:relative; /* Для добавления декоративной линии при наведении */
+}
+
+/* Декоративная линия под ссылками при наведении */
+.nav-links a::after {
+    content:'';
+    position:absolute;
+    width:0; /* Начально линия невидима (нулевая ширина) */
+    height:2px;
+    bottom:0;
+    left:0;
+    background-color:var(--accent-color);
+    transition:width 0.3s; /* Анимация появления линии */
+}
+
+/* Изменение цвета ссылки при наведении */
+.nav-links a:hover {color:var(--accent-color)}
+/* Расширение линии при наведении */
+.nav-links a:hover::after {width:100%}
+
+/* Стили для главной секции (герой) */
+.hero {
+    height:100vh; /* Высота на весь экран */
+    display:flex;
+    align-items:center;
+    background:linear-gradient(rgba(10,10,10,0.7),rgba(10,10,10,0.8)),url('https://i.pinimg.com/736x/7c/5b/15/7c5b15d7e4c860c74781c4a9ef079371.jpg') no-repeat center/cover; /* Затемнённое фоновое изображение */
+    position:relative;
+    overflow:hidden; /* Прячем элементы, выходящие за границы секции */
+}
+
+/* Декоративный элемент перед секцией герой */
+.hero::before {
+    content:""; /* Создаём псевдоэлемент */
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:linear-gradient(45deg,var(--accent-color) 0%,transparent 100%); /* Градиент для создания эффекта свечения */
+    opacity:0.2;
+    animation:pulse 8s infinite alternate; /* Пульсирующая анимация */
+}
+
+/* Анимация пульсации для декоративного элемента */
+@keyframes pulse {
+    0% {opacity:0.1} /* Начальная прозрачность */
+    100% {opacity:0.3} /* Конечная прозрачность */
+}
+
+/* Контент внутри героя */
+.hero-content {
+    position:relative;
+    z-index:1; /* Поверх декоративных элементов */
+    max-width:800px;
+    animation:fadeIn 1.5s ease-out; /* Анимация появления */
+}
+
+/* Анимация появления для контента */
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(20px)} /* Начальное состояние - невидимое и смещенное вниз */
+    to {opacity:1; transform:translateY(0)} /* Конечное состояние - видимое и на месте */
+}
+
+/* Заголовок героя */
+.hero h1 {
+    font-size:4rem;
+    margin-bottom:20px;
+    line-height:1.2;
+    font-weight:700;
+    text-shadow:2px 2px 4px rgba(0,0,0,0.5); /* Тень текста для лучшей читаемости */
+}
+
+/* Подзаголовок с выделенным цветом */
+.hero h1 span {color:var(--accent-color); display:block}
+
+/* Описание героя */
+.hero p {
+    font-size:1.2rem;
+    margin-bottom:30px;
+    opacity:0.9;
+    max-width:600px;
+    font-weight:300;
+}
+
+/* Стиль кнопки */
+.btn {
+    display:inline-block;
+    background-color:var(--accent-color);
+    color:white;
+    padding:15px 35px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    transition:all 0.3s;
+    position:relative;
+    overflow:hidden; /* Спрятать выходящий за границы псевдоэлемент */
+    z-index:1;
+    box-shadow:0 4px 15px rgba(230,57,70,0.3); /* Тень для эффекта объема */
+}
+
+/* Эффект заполнения при наведении на кнопку */
+.btn::before {
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:0; /* Изначально не виден */
+    height:100%;
+    background-color:var(--dark-accent);
+    transition:width 0.3s;
+    z-index:-1; /* Под текстом кнопки */
+}
+
+/* Трансформация кнопки при наведении */
+.btn:hover {
+    transform:translateY(-3px); /* Приподнимаем кнопку */
+    box-shadow:0 6px 20px rgba(230,57,70,0.5); /* Увеличиваем тень */
+}
+
+/* Растягиваем эффект заполнения при наведении */
+.btn:hover::before {width:100%}
+
+/* Стиль для ссылки прокрутки вниз */
+.scroll-down {
+    position:absolute;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:var(--text-color);
+    text-decoration:none;
+    font-size:0.9rem;
+    letter-spacing:1px;
+    opacity:0.8;
+    transition:opacity 0.3s;
+}
+
+/* Увеличение прозрачности при наведении */
+.scroll-down:hover {opacity:1}
+
+/* Анимированная стрелка вниз */
+.scroll-down svg {
+    animation:bounce 2s infinite; /* Бесконечная анимация подпрыгивания */
+    margin-top:10px;
+}
+
+/* Анимация подпрыгивания для стрелки */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform:translateY(0)} /* В этих точках стрелка на месте */
+    40% {transform:translateY(-10px)} /* Пик подъема */
+    60% {transform:translateY(-5px)} /* Промежуточный подъем */
+}
+
+/* Общие стили для секций */
+section {padding:100px 0; position:relative}
+/* Чередование фона для секций (нечетные) */
+section:nth-child(odd) {background-color:var(--secondary-color)}
+
+/* Стили для заголовков секций */
+.section-title {
+    text-align:center;
+    margin-bottom:60px;
+    font-size:2.5rem;
+    position:relative;
+    padding-bottom:20px; /* Отступ для декоративной линии */
+}
+
+/* Декоративная линия под заголовком секции */
+.section-title::after {
+    content:"";
+    position:absolute;
+    display:block;
+    width:80px;
+    height:4px;
+    background-color:var(--accent-color);
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%); /* Центрирование линии */
+}
+
+/* Контейнер для раздела сюжета */
+.plot-container {max-width:800px; margin:0 auto}
+
+/* Карточка с элементом сюжета */
+.plot-point {
+    margin-bottom:60px;
+    padding:35px;
+    background-color:rgba(26,26,26,0.7); /* Полупрозрачный фон */
+    border-radius:10px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2); /* Тень для эффекта глубины */
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.3s, box-shadow 0.3s; /* Анимация при наведении */
+    border-left:4px solid var(--accent-color); /* Акцентная линия слева */
+}
+
+/* Эффект при наведении на карточку сюжета */
+.plot-point:hover {
+    transform:translateY(-5px); /* Поднимаем карточку вверх */
+    box-shadow:0 15px 40px rgba(0,0,0,0.3); /* Усиливаем тень */
+}
+
+/* Заголовок элемента сюжета */
+.plot-point h3 {
+    color:var(--accent-color);
+    margin-bottom:20px;
+    font-size:1.8rem;
+    position:relative;
+    padding-bottom:10px; /* Отступ для декоративной линии */
+}
+
+/* Декоративная линия под заголовком элемента сюжета */
+.plot-point h3::after {
+    content:"";
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:50px;
+    height:2px;
+    background-color:var(--accent-color);
+}
+
+/* Параграфы в карточке сюжета */
+.plot-point p {margin-bottom:15px; line-height:1.8; font-size:1.05rem}
+.plot-point p:last-child {margin-bottom:0} /* Убираем нижний отступ у последнего параграфа */
+
+/* Сетка персонажей */
+.character-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); /* Адаптивная сетка */
+    gap:40px;
+}
+
+/* Карточка персонажа */
+.character-card {
+    background-color:rgba(26,26,26,0.7);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 15px 30px rgba(0,0,0,0.2);
+    transition:transform 0.4s, box-shadow 0.4s; /* Анимация при наведении */
+    position:relative;
+}
+
+/* Эффект при наведении на карточку персонажа */
+.character-card:hover {
+    transform:translateY(-10px) scale(1.02); /* Поднимаем и немного увеличиваем */
+    box-shadow:0 20px 40px rgba(0,0,0,0.4); /* Усиливаем тень */
+}
+
+/* Изображение персонажа */
+.character-img {
+    height:350px;
+    width:100%;
+    background-position:center;
+    background-size:cover;
+    position:relative;
+    transition:transform 0.5s; /* Анимация масштабирования */
+}
+
+/* Увеличение изображения при наведении */
+.character-card:hover .character-img {transform:scale(1.05)}
+
+/* Градиент снизу изображения для лучшей читаемости текста */
+.character-img::after {
+    content:"";
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:150px;
+    background:linear-gradient(transparent, rgba(10,10,10,0.9)); /* Градиент от прозрачного к непрозрачному */
+}
+
+/* Блок с информацией о персонаже */
+.character-info {padding:25px; position:relative}
+
+/* Декоративная линия перед информацией о персонаже */
+.character-info::before {
+    content:"";
+    position:absolute;
+    top:0;
+    left:25px;
+    width:50px;
+    height:3px;
+    background-color:var(--accent-color);
+}
+
+/* Имя персонажа */
+.character-info h3 {
+    font-size:1.8rem;
+    margin-bottom:15px;
+    color:var(--accent-color);
+}
+
+/* Описание персонажа */
+.character-info p {opacity:0.9; margin-bottom:0; line-height:1.8}
+
+/* Секция галереи */
+.gallery-section {
+    background-color:var(--bg-color);
+    position:relative;
+    overflow:hidden; /* Скрываем выходящие за границы элементы */
+}
+
+/* Декоративный фон для секции галереи */
+.gallery-section::before {
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:url('https://i.pinimg.com/736x/7c/5b/15/7c5b15d7e4c860c74781c4a9ef079371.jpg') no-repeat center/cover;
+    opacity:0.05; /* Очень низкая прозрачность */
+    filter:grayscale(100%); /* Делаем изображение чёрно-белым */
+}
+
+/* Сетка галереи */
+.gallery-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); /* Адаптивная сетка */
+    gap:20px;
+    position:relative; /* Расположение поверх декоративного фона */
+}
+
+/* Элемент галереи */
+.gallery-item {
+    height:250px;
+    border-radius:8px;
+    overflow:hidden;
+    position:relative;
+    cursor:pointer; /* Показываем, что элемент интерактивный */
+}
+
+/* Изображение в галерее */
+.gallery-img {
+    width:100%;
+    height:100%;
+    object-fit:cover; /* Масштабирование изображения с сохранением пропорций */
+    transition:transform 0.5s; /* Анимация масштабирования */
+}
+
+/* Увеличение изображения при наведении */
+.gallery-item:hover .gallery-img {transform:scale(1.1)}
+
+/* Оверлей с информацией для изображения */
+.gallery-overlay {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:linear-gradient(to top, rgba(10,10,10,0.8), transparent); /* Градиент от непрозрачного к прозрачному */
+    display:flex;
+    align-items:flex-end; /* Выравнивание по нижнему краю */
+    padding:20px;
+    opacity:0; /* Начально невидим */
+    transition:opacity 0.3s; /* Анимация появления */
+}
+
+/* Показываем оверлей при наведении */
+.gallery-item:hover .gallery-overlay {opacity:1}
+
+/* Заголовок в оверлее */
+.gallery-title {
+    color:var(--text-color);
+    font-size:1.2rem;
+    font-weight:600;
+    margin-bottom:0;
+}
+
+/* Подвал сайта */
+footer {
+    background-color:#050505; /* Более тёмный фон, чем основной */
+    padding:60px 0 30px;
+    position:relative;
+}
+
+/* Декоративная линия сверху подвала */
+footer::before {
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:5px;
+    background:linear-gradient(to right, var(--accent-color), transparent); /* Градиентная линия */
+}
+
+/* Контент подвала */
+.footer-content {max-width:800px; margin:0 auto; text-align:center}
+
+/* Логотип в подвале */
+.footer-logo {
+    font-size:2rem;
+    font-weight:700;
+    color:var(--accent-color);
+    margin-bottom:20px;
+    letter-spacing:2px;
+}
+
+/* Ссылки в подвале */
+.footer-links {
+    display:flex;
+    justify-content:center;
+    list-style:none;
+    margin:30px 0;
+}
+
+.footer-links li {margin:0 15px}
+
+.footer-links a {
+    color:var(--text-color);
+    text-decoration:none;
+    font-weight:500;
+    transition:color 0.3s;
+    font-size:0.9rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+/* Изменение цвета ссылок при наведении */
+.footer-links a:hover {color:var(--accent-color)}
+
+/* Текст в подвале */
+.footer-text {margin-bottom:20px; opacity:0.7; font-size:0.9rem}
+
+/* Социальные ссылки */
+.social-links {display:flex; justify-content:center; margin-top:30px}
+
+.social-links a {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:40px;
+    height:40px;
+    background-color:rgba(41,41,41,0.7);
+    border-radius:50%;
+    margin:0 10px;
+    transition:all 0.3s;
+}
+
+/* Эффекты наведения для социальных ссылок */
+.social-links a:hover {
+    background-color:var(--accent-color);
+    transform:translateY(-3px); /* Приподнимаем иконку */
+}
+
+/* Информация об авторских правах */
+.copyright {margin-top:40px; font-size:0.85rem; opacity:0.6}
+
+/* Стили для мобильного меню */
+.menu-toggle {
+    display:none; /* По умолчанию скрыто на десктопе */
+    flex-direction:column;
+    cursor:pointer;
+    z-index:1001; /* Выше, чем мобильное меню */
+    transition:all 0.3s;
+}
+
+/* Полоски гамбургер-меню */
+.menu-toggle span {
+    width:30px;
+    height:2px;
+    background-color:var(--text-color);
+    margin:4px 0;
+    transition:0.4s; /* Анимация трансформации */
+    border-radius:2px;
+}
+
+/* Кнопка "наверх" */
+.back-to-top {
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    width:50px;
+    height:50px;
+    background-color:var(--accent-color);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-decoration:none;
+    opacity:0; /* Изначально скрыта */
+    visibility:hidden; /* Изначально скрыта */
+    transition:all 0.3s;
+    z-index:900;
+    box-shadow:0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Класс для активации кнопки "наверх" */
+.back-to-top.active {opacity:1; visibility:visible}
+
+/* Эффекты наведения для кнопки "наверх" */
+.back-to-top:hover {
+    background-color:var(--dark-accent);
+    transform:translateY(-5px); /* Приподнимаем кнопку */
+    box-shadow:0 6px 20px rgba(0,0,0,0.3); /* Усиливаем тень */
+}
+
+/* Адаптивные стили для разных размеров экрана */
+@media (max-width:992px) {
+    .hero h1 {font-size:3.5rem} /* Уменьшаем размер заголовка */
+    .section-title {font-size:2.2rem} /* Уменьшаем размер заголовков секций */
+}
+
+@media (max-width:768px) {
+    .hero h1 {font-size:2.8rem} /* Ещё больше уменьшаем заголовок */
+    
+    /* Стили для мобильного меню */
+    .nav-links {
+        position:fixed;
+        top:0;
+        right:-100%; /* Изначально скрыто за пределами экрана */
+        height:100vh;
+        width:70%;
+        background-color:var(--bg-color);
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        transition:right 0.4s; /* Анимация появления */
+        z-index:1000;
+        box-shadow:-5px 0 15px rgba(0,0,0,0.2);
+    }
+    
+    /* Отображение мобильного меню при активации */
+    .nav-links.active {right:0}
+    .nav-links li {margin:20px 0} /* Отступы между пунктами меню */
+    .menu-toggle {display:flex} /* Показываем кнопку меню */
+    .section-title {font-size:2rem} /* Уменьшаем заголовки секций */
+    .plot-point {padding:25px} /* Уменьшаем отступы в карточках сюжета */
+    
+    /* Анимация трансформации первой полоски гамбургер-меню в крестик */
+    .menu-toggle.active span:nth-child(1) {
+        transform:rotate(-45deg) translate(-5px, 6px);
+    }
+    
+    /* Скрытие средней полоски гамбургер-меню */
+    .menu-toggle.active span:nth-child(2) {opacity:0}
+    
+    /* Анимация трансформации третьей полоски гамбургер-меню в крестик */
+    .menu-toggle.active span:nth-child(3) {
+        transform:rotate(45deg) translate(-5px, -6px);
+    }
+    
+    /* Мобильный вид для ссылок в подвале */
+    .footer-links {flex-direction:column}
+    .footer-links li {margin:10px 0}
+}
+
+/* Стили для мобильных устройств с малым экраном */
+@media (max-width:576px) {
+    .hero h1 {font-size:2.3rem} /* Для очень маленьких устройств */
+    .hero p {font-size:1rem}
+    .btn {padding:12px 30px; font-size:0.9rem} /* Уменьшаем кнопку */
+    .nav-links {width:100%} /* Меню на всю ширину экрана */
+    .section-title {font-size:1.8rem}
+    .plot-point {padding:20px} /* Ещё меньше отступы */
+    .plot-point h3, .character-info h3 {font-size:1.5rem} /* Меньше заголовки */
+    
+    /* Уменьшаем кнопку "наверх" для маленьких экранов */
+    .back-to-top {
+        bottom:20px;
+        right:20px;
+        width:40px;
+        height:40px;
+    }
+}
