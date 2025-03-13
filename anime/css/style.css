@@ -236,19 +236,19 @@ section h2::after {
 }
 
 #cid {
-    background-image: url('/static/images/cid.jpg');
+    background-image: url('https://i.namu.wiki/i/hb4N07qe9ngGmrbrOfxwXouY32Tw7s7Rg6nswgKCvcoU4uefd-t1XC9Zjve_gkc67PmuN0pr7sKJ4ogU9vAkqw.webp');
 }
 
 #alpha {
-    background-image: url('/static/images/alpha.jpg');
+    background-image: url('https://static.wikia.nocookie.net/to-be-a-power-in-the-shadows/images/a/a5/Alpha_Game.png/revision/latest/scale-to-width/360?cb=20230306194207');
 }
 
 #beta {
-    background-image: url('/static/images/beta.jpg');
+    background-image: url('https://static.wikia.nocookie.net/to-be-a-power-in-the-shadows/images/0/08/Beta-AN.png/revision/latest/scale-to-width/360?cb=20220218163508');
 }
 
 #claire {
-    background-image: url('/static/images/claire.jpg');
+    background-image: url('https://static.wikia.nocookie.net/to-be-a-power-in-the-shadows/images/8/89/Claire_Kagenou_Game.png/revision/latest?cb=20230306193937');
 }
 
 .character-card h3 {
