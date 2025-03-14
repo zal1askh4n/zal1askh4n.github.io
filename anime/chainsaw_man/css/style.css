@@ -93,7 +93,7 @@ header.scrolled {padding:10px 0; background-color:rgba(10,10,10,0.98)}
     height:100vh; /* Высота на весь экран */
     display:flex;
     align-items:center;
-    background:linear-gradient(rgba(10,10,10,0.7),rgba(10,10,10,0.8)),url('https://i.pinimg.com/736x/7c/5b/15/7c5b15d7e4c860c74781c4a9ef079371.jpg') no-repeat center/cover; /* Затемнённое фоновое изображение */
+    background:linear-gradient(rgba(10,10,10,0.7),rgba(10,10,10,0.8)),url('https://i.pinimg.com/originals/5f/ce/2d/5fce2d595ac6ac9776a2eeff33a6347a.gif') no-repeat center/cover; /* Затемнённое фоновое изображение */
     position:relative;
     overflow:hidden; /* Прячем элементы, выходящие за границы секции */
 }
