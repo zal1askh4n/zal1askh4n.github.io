@@ -1,10 +1,603 @@
 <!DOCTYPE html>
-<html>
- <head>
-  <meta charset="utf-8" />
-  <title>Ширина 100%</title>
- </head>
- <body>
-  <p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQINGcROWVeuk24N2DbI4waBTT7o_PgwQi00w&s" alt="Винни-Пух" width="100%"></p>
- </body>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Защита практики ПОК-23 • IT Defense</title>
+<style>
+/* ===============================
+   DESIGN SYSTEM
+================================ */
+:root {
+  --bg: #0b0f1a;
+  --bg-soft: #10162a;
+  --card: #141a32;
+  --border: rgba(255,255,255,.08);
+
+  --primary: #00ff9c;
+  --secondary: #00c2ff;
+  --accent: #a78bfa;
+
+  --text: #e7e9ee;
+  --muted: #9aa3b2;
+
+  --radius: 18px;
+}
+
+/* ===============================
+   RESET
+================================ */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  background:
+    radial-gradient(800px 400px at 50% -200px, rgba(0,255,156,.15), transparent),
+    var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ===============================
+   GRID BACKGROUND
+================================ */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(circle at top, black 30%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===============================
+   LAYOUT
+================================ */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===============================
+   HEADER
+================================ */
+header {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(12px);
+  background: rgba(11,15,26,.75);
+  border-bottom: 1px solid var(--border);
+  z-index: 10;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: grid;
+  place-items: center;
+  color: #000;
+  font-weight: 800;
+}
+
+.header-text h1 {
+  font-size: 15px;
+  margin: 0;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-text p {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.status {
+  margin-left: auto;
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0,255,156,.12);
+  border: 1px solid rgba(0,255,156,.4);
+  color: var(--primary);
+}
+
+.theme-btn {
+  display: none;
+}
+
+/* ===============================
+   HERO
+================================ */
+.hero {
+  text-align: center;
+  padding: 56px 0 32px;
+}
+
+.hero h2 {
+  font-size: 34px;
+  margin: 0 0 12px;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+/* ===============================
+   TERMINAL
+================================ */
+.terminal {
+  background: #0d1117;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  max-width: 360px;
+  margin: 0 auto;
+  box-shadow: 0 0 60px rgba(0,255,156,.18);
+}
+
+.terminal-bar {
+  display: flex;
+  gap: 6px;
+  padding: 10px;
+}
+
+.terminal-bar span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminal-bar span:nth-child(1){background:#ff5f56}
+.terminal-bar span:nth-child(2){background:#ffbd2e}
+.terminal-bar span:nth-child(3){background:#27c93f}
+
+.terminal pre {
+  margin: 0;
+  padding: 16px;
+  font-size: 13px;
+  color: #c9d1d9;
+}
+
+.kw { color: var(--primary); }
+
+/* ===============================
+   PHOTO
+================================ */
+.photo {
+  margin: 40px 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.photo img {
+  width: 100%;
+  display: block;
+}
+
+.photo-caption {
+  padding: 12px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ===============================
+   STATS
+================================ */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 40px 0;
+}
+
+.stat {
+  background: linear-gradient(180deg, var(--card), var(--bg-soft));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  text-align: center;
+}
+
+.stat h3 {
+  margin: 0;
+  font-size: 28px;
+  color: var(--primary);
+}
+
+.stat p {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .6px;
+}
+
+/* ===============================
+   BUTTON
+================================ */
+.btn-review {
+  width: 100%;
+  border-radius: var(--radius);
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #000;
+  box-shadow: 0 10px 40px rgba(0,255,156,.35);
+}
+
+/* ===============================
+   COMMENTS
+================================ */
+.comments-section {
+  margin: 50px 0;
+}
+
+.section-title {
+  font-size: 26px;
+  text-align: center;
+  margin-bottom: 6px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+
+.comment {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 14px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+  color: #000;
+}
+
+.comment-author {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.comment-date {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.comment-text {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ===============================
+   MODAL
+================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(12px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-content {
+  width: 92%;
+  max-width: 420px;
+  background: var(--card);
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  padding: 26px;
+}
+
+.modal h3 {
+  margin: 0 0 20px;
+  text-align: center;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+input, textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  font-family: inherit;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+textarea {
+  resize: none;
+  min-height: 120px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.btn-cancel {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 12px 18px;
+  border-radius: 12px;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #000;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 700;
+}
+</style>
+
+</head>
+<body>
+    <div class="grid-bg"></div>
+
+    <header>
+        <div class="header-content container">
+            <div class="logo">&lt;/&gt;</div>
+            <div class="header-text">
+                <h1>IT Defense Platform</h1>
+                <p>// Группа ПОК-23</p>
+            </div>
+            <div class="status"><div class="dot"></div> LIVE</div>
+            <button class="theme-btn" id="themeToggle">☀️ Light</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h2>Защита практики</h2>
+            <p>Инновационная платформа для оценки IT-проектов</p>
+            <div class="code">
+                <span style="color:#ff0080">const</span> defense = 
+                <span style="color:#00ff88">await</span> getPracticeResults()
+            </div>
+        </section>
+
+        <section class="photo">
+            <img src="https://i.ibb.co.com/JjztyyyJ/photo-2025-12-17-13-53-47.jpg" alt="Группа ПОК-23">
+            <div class="photo-caption">Группа ПОК-23 • IT Специалисты будущего</div>
+        </section>
+
+        <div class="stats">
+            <div class="stat">
+                <h3><span id="onlineCount">0</span></h3>
+                <p>Онлайн сейчас</p>
+            </div>
+            <div class="stat">
+                <h3 id="commentCount">0</h3>
+                <p>Отзывов</p>
+            </div>
+            <div class="stat">
+                <h3 id="juryCount">0</h3>
+                <p>Членов жюри</p>
+            </div>
+            <div class="stat">
+                <h3 id="totalViews">0</h3>
+                <p>Всего просмотров</p>
+            </div>
+        </div>
+
+        <!-- Кнопка открытия формы -->
+        <button class="btn-review" id="openModal">Оставить отзыв →</button>
+
+        <!-- Список комментариев -->
+        <section class="comments-section">
+            <h3 class="section-title">Отзывы жюри</h3>
+            <p class="section-subtitle">// Реальное время синхронизации с Firebase</p>
+            <div id="commentsList"></div>
+        </section>
+    </div>
+
+    <!-- Модальное окно с формой -->
+    <div class="modal" id="commentModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h3>Оставить отзыв</h3>
+            <form id="commentForm">
+                <input type="text" id="juryName" placeholder="// Ваше имя" required>
+                <textarea id="commentText" placeholder="// Напишите отзыв о защите практики..." required></textarea>
+                <div class="buttons">
+                    <button type="button" class="btn-cancel" id="cancelBtn">Отмена</button>
+                    <button type="submit" class="btn-submit">Отправить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, push, onValue, query, orderByChild, update, increment, set, onDisconnect } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBt9-4IveGuiBQ9z_bcFuL_HKqtMzguR54",
+            authDomain: "newd-9ea57.firebaseapp.com",
+            databaseURL: "https://newd-9ea57-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "newd-9ea57",
+            storageBucket: "newd-9ea57.firebasestorage.app",
+            messagingSenderId: "1051928821034",
+            appId: "1:1051928821034:web:33b149a279c9dad8297253"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const commentsRef = ref(db, 'comments');
+        const onlineRef = ref(db, 'online');
+        const statsRef = ref(db, 'stats');
+        const viewsRef = ref(db, 'stats/totalViews');
+
+        const colors = ['#00ff88,#00d4ff', '#ff0080,#ff8c00', '#8b5cf6,#ec4899', '#06b6d4,#3b82f6', '#10b981,#059669', '#f59e0b,#ef4444']
+            .map(c => `linear-gradient(135deg, ${c})`);
+
+        function hashName(name) {
+            let h = 0;
+            for (let i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h << 5) - h);
+            return Math.abs(h) % colors.length;
+        }
+
+        function timeAgo(date) {
+            const sec = Math.floor((Date.now() - new Date(date)) / 1000);
+            if (sec < 60) return 'только что';
+            if (sec < 3600) return `${Math.floor(sec/60)} мин. назад`;
+            if (sec < 86400) return `${Math.floor(sec/3600)} ч. назад`;
+            if (sec < 604800) return `${Math.floor(sec/86400)} дн. назад`;
+            return new Date(date).toLocaleDateString('ru-RU', {day:'numeric', month:'short'});
+        }
+
+        const els = {
+            list: document.getElementById('commentsList'),
+            modal: document.getElementById('commentModal'),
+            openBtn: document.getElementById('openModal'),
+            closeBtn: document.getElementById('closeModal'),
+            cancelBtn: document.getElementById('cancelBtn'),
+            form: document.getElementById('commentForm'),
+            name: document.getElementById('juryName'),
+            text: document.getElementById('commentText'),
+            online: document.getElementById('onlineCount'),
+            comments: document.getElementById('commentCount'),
+            jury: document.getElementById('juryCount'),
+            views: document.getElementById('totalViews')
+        };
+
+        // Модальное окно
+        els.openBtn.onclick = () => els.modal.style.display = 'flex';
+        els.closeBtn.onclick = () => els.modal.style.display = 'none';
+        els.cancelBtn.onclick = () => els.modal.style.display = 'none';
+        window.onclick = (e) => { if (e.target === els.modal) els.modal.style.display = 'none'; };
+
+        // Онлайн и просмотры
+        const connectedRef = ref(db, '.info/connected');
+        let presenceRef;
+        onValue(connectedRef, snap => {
+            if (snap.val()) {
+                presenceRef = push(onlineRef);
+                set(presenceRef, true);
+                onDisconnect(presenceRef).remove();
+            }
+        });
+
+        onValue(onlineRef, snap => els.online.textContent = snap.size || 0);
+        update(statsRef, { totalViews: increment(1) });
+        onValue(viewsRef, snap => els.views.textContent = snap.val() || 0);
+
+        // Комментарии
+        onValue(query(commentsRef, orderByChild('timestamp')), snap => {
+            const comments = [];
+            const jury = new Set();
+            snap.forEach(child => {
+                const c = child.val();
+                comments.push({ ...c });
+                jury.add(c.author);
+            });
+            comments.reverse();
+
+            els.comments.textContent = comments.length;
+            els.jury.textContent = jury.size;
+
+            if (comments.length === 0) {
+                els.list.innerHTML = '<div class="empty">💭<br>Комментариев пока нет. Будьте первым!</div>';
+                return;
+            }
+
+            els.list.innerHTML = comments.map(c => `
+                <div class="comment">
+                    <div class="avatar" style="background:${c.color}">${c.author[0].toUpperCase()}</div>
+                    <div>
+                        <div class="comment-author">${c.author}</div>
+                        <div class="comment-date">${timeAgo(c.timestamp)}</div>
+                        <div class="comment-text">${c.text.replace(/</g, '&lt;')}</div>
+                    </div>
+                </div>
+            `).join('');
+        });
+
+        // Отправка комментария
+        els.form.addEventListener('submit', async e => {
+            e.preventDefault();
+            const name = els.name.value.trim();
+            const text = els.text.value.trim();
+            if (!name || !text) return;
+
+            await push(commentsRef, {
+                author: name,
+                text: text,
+                timestamp: new Date().toISOString(),
+                color: colors[hashName(name)]
+            });
+
+            els.form.reset();
+            els.modal.style.display = 'none';
+        });
+
+        // Тема
+        const toggle = document.getElementById('themeToggle');
+        const saved = localStorage.getItem('theme') || 'dark';
+        if (saved === 'light') document.body.classList.add('light');
+        toggle.textContent = saved === 'light' ? '🌙 Dark' : '☀️ Light';
+        toggle.onclick = () => {
+            document.body.classList.toggle('light');
+            const isLight = document.body.classList.contains('light');
+            toggle.textContent = isLight ? '🌙 Dark' : '☀️ Light';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        };
+    </script>
+</body>
 </html>
