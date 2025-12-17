@@ -1,463 +1,302 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="kk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Защита практики ПОК-23 • IT Defense</title>
-<style>
-/* ===============================
-   DESIGN SYSTEM
-================================ */
-:root {
-  --bg: #0b0f1a;
-  --bg-soft: #10162a;
-  --card: #141a32;
-  --border: rgba(255,255,255,.08);
+    <title>POK-23 | DevDefense Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030508;
+            --surface: #0a0e17;
+            --surface-light: #121826;
+            --primary: #00e0ff; 
+            --primary-glow: rgba(0, 224, 255, 0.3);
+            --secondary: #8b5cf6;
+            --accent: #ff0080;
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --border: rgba(255, 255, 255, 0.05);
+            --radius-xl: 20px;
+            --radius-lg: 12px;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
 
-  --primary: #00ff9c;
-  --secondary: #00c2ff;
-  --accent: #a78bfa;
+        * { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
 
-  --text: #e7e9ee;
-  --muted: #9aa3b2;
+        body {
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-  --radius: 18px;
-}
+        .code-bg {
+            position: fixed; inset: 0; z-index: -1;
+            font-family: var(--font-mono); font-size: 10px;
+            color: var(--primary); opacity: 0.03;
+            pointer-events: none; user-select: none;
+        }
 
-/* ===============================
-   RESET
-================================ */
-* {
-  box-sizing: border-box;
-}
+        .cyber-bg {
+            position: fixed; inset: 0; z-index: -1;
+            background: 
+                radial-gradient(circle at 50% 0%, rgba(0, 224, 255, 0.08), transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.05), transparent 30%);
+        }
 
-body {
-  margin: 0;
-  font-family: 'JetBrains Mono', monospace;
-  background:
-    radial-gradient(800px 400px at 50% -200px, rgba(0,255,156,.15), transparent),
-    var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-}
+        .scanline {
+            position: fixed; inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.1) 51%);
+            background-size: 100% 4px;
+            pointer-events: none; z-index: 10; opacity: 0.1;
+        }
 
-/* ===============================
-   GRID BACKGROUND
-================================ */
-.grid-bg {
-  position: fixed;
-  inset: 0;
-  background:
-    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-  background-size: 32px 32px;
-  mask-image: radial-gradient(circle at top, black 30%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
 
-/* ===============================
-   LAYOUT
-================================ */
-.container {
-  width: 100%;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 16px;
-  position: relative;
-  z-index: 1;
-}
+        header {
+            padding: 16px 0; border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 100;
+            background: rgba(3, 5, 8, 0.7);
+        }
 
-/* ===============================
-   HEADER
-================================ */
-header {
-  position: sticky;
-  top: 0;
-  backdrop-filter: blur(12px);
-  background: rgba(11,15,26,.75);
-  border-bottom: 1px solid var(--border);
-  z-index: 10;
-}
+        .header-content { display: flex; align-items: center; justify-content: space-between; }
+        
+        .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit; }
+        .logo-box {
+            width: 42px; height: 38px; background: var(--primary);
+            border-radius: 8px; display: grid; place-items: center;
+            font-weight: 800; color: #000; font-size: 11px;
+            box-shadow: 0 0 25px var(--primary-glow);
+            font-family: var(--font-mono);
+        }
 
-.header-content {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 0;
-}
+        .status-badge {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.03);
+            padding: 6px 12px; border-radius: 8px;
+            border: 1px solid var(--border);
+        }
 
-.logo {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  display: grid;
-  place-items: center;
-  color: #000;
-  font-weight: 800;
-}
+        .dot-pulse {
+            width: 8px; height: 8px; background: var(--primary);
+            border-radius: 50%; position: relative;
+        }
+        .dot-pulse::after {
+            content: ''; position: absolute; inset: 0;
+            background: var(--primary); border-radius: 50%;
+            animation: pulse-ring 2s infinite;
+        }
 
-.header-text h1 {
-  font-size: 15px;
-  margin: 0;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+        .hero { padding: 60px 0 40px; text-align: center; }
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            border-right: 3px solid var(--primary);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: -1px;
+            font-weight: 800;
+            font-size: clamp(32px, 6vw, 56px);
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--primary); } }
 
-.header-text p {
-  margin: 2px 0 0;
-  font-size: 11px;
-  color: var(--muted);
-}
+        .hero-meta { font-family: var(--font-mono); font-size: 13px; color: var(--primary); margin-bottom: 10px; }
 
-.status {
-  margin-left: auto;
-  font-size: 11px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(0,255,156,.12);
-  border: 1px solid rgba(0,255,156,.4);
-  color: var(--primary);
-}
+        .photo-frame {
+            position: relative; border-radius: var(--radius-xl);
+            padding: 12px; background: var(--surface-light);
+            border: 1px solid var(--border); margin: 40px 0;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .photo-frame img { 
+            width: 100%; border-radius: calc(var(--radius-xl) - 8px); 
+            display: block; filter: contrast(1.1) brightness(0.9);
+        }
+        .photo-tag {
+            position: absolute; bottom: 30px; left: 30px;
+            background: var(--primary); color: #000;
+            padding: 4px 12px; font-weight: 700; border-radius: 4px;
+            font-family: var(--font-mono); font-size: 12px;
+        }
 
-.theme-btn {
-  display: none;
-}
+        .stats-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 20px; margin-bottom: 50px;
+        }
+        .stat-card {
+            background: var(--surface); border: 1px solid var(--border);
+            padding: 24px; border-radius: var(--radius-lg); position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            transform: translateX(-100%); transition: 0.5s;
+        }
+        .stat-card:hover::before { transform: translateX(100%); }
+        .stat-emoji { font-size: 24px; margin-bottom: 10px; display: block; }
+        .stat-val { font-size: 32px; font-weight: 800; color: #fff; display: block; }
+        .stat-label { font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-family: var(--font-mono); }
 
-/* ===============================
-   HERO
-================================ */
-.hero {
-  text-align: center;
-  padding: 56px 0 32px;
-}
+        .btn-glow {
+            width: 100%; padding: 20px; border-radius: var(--radius-lg);
+            border: none; background: #fff; color: #000;
+            font-size: 16px; font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            box-shadow: 0 15px 30px rgba(255,255,255,0.1);
+            margin-bottom: 60px;
+        }
+        .btn-glow:hover { 
+            background: var(--primary); transform: translateY(-3px); 
+            box-shadow: 0 20px 40px var(--primary-glow); 
+        }
 
-.hero h2 {
-  font-size: 34px;
-  margin: 0 0 12px;
-  line-height: 1.1;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+        .comment-card {
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+            padding: 20px; border-radius: 16px; margin-bottom: 16px;
+            position: relative;
+        }
+        .comment-card:hover { 
+            border-color: var(--primary); 
+            background: rgba(0, 224, 255, 0.02);
+        }
+        
+        .avatar {
+            width: 44px; height: 44px; border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--primary);
+            box-shadow: 0 5px 15px var(--primary-glow);
+            background: var(--surface-light);
+        }
+        .avatar img {
+            width: 100%; height: 100%; display: block; object-fit: cover;
+        }
 
-.hero p {
-  font-size: 14px;
-  color: var(--muted);
-  margin-bottom: 24px;
-}
+        .modal {
+            position: fixed; inset: 0; background: rgba(2, 4, 6, 0.95);
+            display: none; place-items: center; z-index: 1000; backdrop-filter: blur(12px);
+        }
+        .modal-content {
+            background: var(--surface-light); width: 90%; max-width: 440px;
+            padding: 40px; border-radius: 24px; border: 1px solid var(--primary);
+            box-shadow: 0 0 50px rgba(0, 224, 255, 0.1);
+        }
 
-/* ===============================
-   TERMINAL
-================================ */
-.terminal {
-  background: #0d1117;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  max-width: 360px;
-  margin: 0 auto;
-  box-shadow: 0 0 60px rgba(0,255,156,.18);
-}
+        input, textarea {
+            width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+            padding: 16px; border-radius: 12px; color: #fff; margin: 10px 0 20px;
+            font-family: var(--font-mono); font-size: 14px;
+        }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 15px var(--primary-glow); }
 
-.terminal-bar {
-  display: flex;
-  gap: 6px;
-  padding: 10px;
-}
+        @keyframes pulse-ring { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(2); opacity: 0; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-.terminal-bar span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-.terminal-bar span:nth-child(1){background:#ff5f56}
-.terminal-bar span:nth-child(2){background:#ffbd2e}
-.terminal-bar span:nth-child(3){background:#27c93f}
-
-.terminal pre {
-  margin: 0;
-  padding: 16px;
-  font-size: 13px;
-  color: #c9d1d9;
-}
-
-.kw { color: var(--primary); }
-
-/* ===============================
-   PHOTO
-================================ */
-.photo {
-  margin: 40px 0;
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--card);
-  border: 1px solid var(--border);
-}
-
-.photo img {
-  width: 100%;
-  display: block;
-}
-
-.photo-caption {
-  padding: 12px;
-  font-size: 12px;
-  text-align: center;
-  color: var(--muted);
-}
-
-/* ===============================
-   STATS
-================================ */
-.stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin: 40px 0;
-}
-
-.stat {
-  background: linear-gradient(180deg, var(--card), var(--bg-soft));
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px;
-  text-align: center;
-}
-
-.stat h3 {
-  margin: 0;
-  font-size: 28px;
-  color: var(--primary);
-}
-
-.stat p {
-  margin: 6px 0 0;
-  font-size: 11px;
-  color: var(--muted);
-  letter-spacing: .6px;
-}
-
-/* ===============================
-   BUTTON
-================================ */
-.btn-review {
-  width: 100%;
-  border-radius: var(--radius);
-  padding: 16px;
-  font-size: 15px;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #000;
-  box-shadow: 0 10px 40px rgba(0,255,156,.35);
-}
-
-/* ===============================
-   COMMENTS
-================================ */
-.comments-section {
-  margin: 50px 0;
-}
-
-.section-title {
-  font-size: 26px;
-  text-align: center;
-  margin-bottom: 6px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.section-subtitle {
-  text-align: center;
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 28px;
-}
-
-.comment {
-  display: flex;
-  gap: 12px;
-  padding: 14px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  margin-bottom: 14px;
-}
-
-.avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-weight: bold;
-  color: #000;
-}
-
-.comment-author {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.comment-date {
-  font-size: 11px;
-  color: var(--muted);
-}
-
-.comment-text {
-  margin-top: 6px;
-  font-size: 14px;
-  color: var(--muted);
-}
-
-/* ===============================
-   MODAL
-================================ */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.75);
-  backdrop-filter: blur(12px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-.modal-content {
-  width: 92%;
-  max-width: 420px;
-  background: var(--card);
-  border-radius: 22px;
-  border: 1px solid var(--border);
-  padding: 26px;
-}
-
-.modal h3 {
-  margin: 0 0 20px;
-  text-align: center;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-input, textarea {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px;
-  font-family: inherit;
-  color: var(--text);
-  margin-bottom: 14px;
-}
-
-textarea {
-  resize: none;
-  min-height: 120px;
-}
-
-.buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-}
-
-.btn-cancel {
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  padding: 12px 18px;
-  border-radius: 12px;
-}
-
-.btn-submit {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #000;
-  padding: 12px 18px;
-  border-radius: 12px;
-  border: none;
-  font-weight: 700;
-}
-</style>
-
+        @media (max-width: 600px) {
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .typewriter { font-size: 28px; }
+        }
+    </style>
 </head>
 <body>
-    <div class="grid-bg"></div>
+    <div class="code-bg" id="codeBg"></div>
+    <div class="cyber-bg"></div>
+    <div class="scanline"></div>
 
     <header>
-        <div class="header-content container">
-            <div class="logo">&lt;/&gt;</div>
-            <div class="header-text">
-                <h1>IT Defense Platform</h1>
-                <p>// Группа ПОК-23</p>
+        <div class="container header-content">
+            <a href="#" class="brand">
+                <div class="logo-box">POK-23</div>
+                <div>
+                    <div style="font-weight: 800; font-size: 15px; line-height: 1;">DevDefense Lab</div>
+                    <div style="font-size: 10px; color: var(--text-muted); font-family: var(--font-mono);">GRUPPASY_POK_23</div>
+                </div>
+            </a>
+            <div class="status-badge">
+                <div class="dot-pulse"></div>
+                <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--primary);">ONLINE_ACCESS</span>
             </div>
-            <div class="status"><div class="dot"></div> LIVE</div>
-            <button class="theme-btn" id="themeToggle">☀️ Light</button>
         </div>
     </header>
 
-    <div class="container">
+    <main class="container">
         <section class="hero">
-            <h2>Защита практики</h2>
-            <p>Инновационная платформа для оценки IT-проектов</p>
-            <div class="code">
-                <span style="color:#ff0080">const</span> defense = 
-                <span style="color:#00ff88">await</span> getPracticeResults()
-            </div>
+            <div class="hero-meta">🚀 // GROUP_ID: POK-23 // REKURSIA_ISKE_QOSYLDY</div>
+            <div class="typewriter">Tajiribeni Qorgau</div>
+            <p style="color: var(--text-muted); max-width: 500px; margin: 20px auto 0; font-size: 15px;">
+                <span style="color: var(--primary); font-family: var(--font-mono); font-weight: bold;">const</span> mission = "Naqty uaqyt rejiminde belsendilikti taldau jane monitoring" 👨‍💻
+            </p>
         </section>
 
-        <section class="photo">
-            <img src="https://i.ibb.co.com/JjztyyyJ/photo-2025-12-17-13-53-47.jpg" alt="Группа ПОК-23">
-            <div class="photo-caption">Группа ПОК-23 • IT Специалисты будущего</div>
+        <section class="photo-frame">
+            <img src="https://i.ibb.co.com/JjztyyyJ/photo-2025-12-17-13-53-47.jpg" alt="Komandalyq sessia">
+            <div class="photo-tag">#POK_23_TEAM</div>
         </section>
 
-        <div class="stats">
-            <div class="stat">
-                <h3><span id="onlineCount">0</span></h3>
-                <p>Онлайн сейчас</p>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-emoji">🤖</span>
+                <span class="stat-label">Belsendi tüinder</span>
+                <span class="stat-val" id="onlineCount">0</span>
             </div>
-            <div class="stat">
-                <h3 id="commentCount">0</h3>
-                <p>Отзывов</p>
+            <div class="stat-card">
+                <span class="stat-emoji">📜</span>
+                <span class="stat-label">Kommit jurnaldary</span>
+                <span class="stat-val" id="commentCount">0</span>
             </div>
-            <div class="stat">
-                <h3 id="juryCount">0</h3>
-                <p>Членов жюри</p>
+            <div class="stat-card">
+                <span class="stat-emoji">🛡️</span>
+                <span class="stat-label">Rastalgan qazylar</span>
+                <span class="stat-val" id="juryCount">0</span>
             </div>
-            <div class="stat">
-                <h3 id="totalViews">0</h3>
-                <p>Всего просмотров</p>
+            <div class="stat-card">
+                <span class="stat-emoji">⚡</span>
+                <span class="stat-label">Jüielik trafik</span>
+                <span class="stat-val" id="totalViews">0</span>
             </div>
         </div>
 
-        <!-- Кнопка открытия формы -->
-        <button class="btn-review" id="openModal">Оставить отзыв →</button>
+        <button class="btn-glow" id="openModal">
+            <span>PIKIR QALDYRU 💬</span>
+            <span style="font-family: var(--font-mono); opacity: 0.5; font-size: 12px;">POK23-MSG</span>
+        </button>
 
-        <!-- Список комментариев -->
-        <section class="comments-section">
-            <h3 class="section-title">Отзывы жюри</h3>
-            <p class="section-subtitle">// Реальное время синхронизации с Firebase</p>
+        <section class="feed-section" style="background: var(--surface); border-radius: var(--radius-xl); border: 1px solid var(--border); padding: 32px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="margin: 0; font-size: 18px; display: flex; align-items: center; gap: 10px;">
+                    <span style="color: var(--primary);">#</span> POK_23_LOGS
+                </h3>
+            </div>
             <div id="commentsList"></div>
         </section>
-    </div>
+    </main>
 
-    <!-- Модальное окно с формой -->
     <div class="modal" id="commentModal">
         <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h3>Оставить отзыв</h3>
+            <h3 style="margin: 0 0 8px; font-size: 24px;">Jurnaldi Ornalastiru 🚀</h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 24px;">POK-23 gruppasynyn mүshesi retinde habarlamanyz tirkelui tiaz.</p>
+            
             <form id="commentForm">
-                <input type="text" id="juryName" placeholder="// Ваше имя" required>
-                <textarea id="commentText" placeholder="// Напишите отзыв о защите практики..." required></textarea>
-                <div class="buttons">
-                    <button type="button" class="btn-cancel" id="cancelBtn">Отмена</button>
-                    <button type="submit" class="btn-submit">Отправить</button>
+                <label style="font-family: var(--font-mono); font-size: 11px; color: var(--primary);">POK23_MEMBER_ID</label>
+                <input type="text" id="juryName" placeholder="At-joni" required>
+                
+                <label style="font-family: var(--font-mono); font-size: 11px; color: var(--primary);">COMMIT_MSG</label>
+                <textarea id="commentText" rows="4" placeholder="Pikiriniz..." required></textarea>
+                
+                <div style="display: flex; gap: 16px; margin-top: 10px;">
+                    <button type="button" id="cancelBtn" style="flex: 1; background: transparent; border: 1px solid var(--border); color: #fff; padding: 14px; border-radius: 12px; cursor: pointer; font-family: var(--font-mono);">Toqtatu</button>
+                    <button type="submit" class="btn-glow" style="flex: 2; margin: 0; padding: 14px;">BEKITU JANE JÖNELTU</button>
                 </div>
             </form>
         </div>
@@ -479,124 +318,65 @@ textarea {
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const commentsRef = ref(db, 'comments');
-        const onlineRef = ref(db, 'online');
-        const statsRef = ref(db, 'stats');
-        const viewsRef = ref(db, 'stats/totalViews');
-
-        const colors = ['#00ff88,#00d4ff', '#ff0080,#ff8c00', '#8b5cf6,#ec4899', '#06b6d4,#3b82f6', '#10b981,#059669', '#f59e0b,#ef4444']
-            .map(c => `linear-gradient(135deg, ${c})`);
-
-        function hashName(name) {
-            let h = 0;
-            for (let i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h << 5) - h);
-            return Math.abs(h) % colors.length;
-        }
-
-        function timeAgo(date) {
-            const sec = Math.floor((Date.now() - new Date(date)) / 1000);
-            if (sec < 60) return 'только что';
-            if (sec < 3600) return `${Math.floor(sec/60)} мин. назад`;
-            if (sec < 86400) return `${Math.floor(sec/3600)} ч. назад`;
-            if (sec < 604800) return `${Math.floor(sec/86400)} дн. назад`;
-            return new Date(date).toLocaleDateString('ru-RU', {day:'numeric', month:'short'});
-        }
-
-        const els = {
-            list: document.getElementById('commentsList'),
+        
+        const ui = {
             modal: document.getElementById('commentModal'),
-            openBtn: document.getElementById('openModal'),
-            closeBtn: document.getElementById('closeModal'),
-            cancelBtn: document.getElementById('cancelBtn'),
+            list: document.getElementById('commentsList'),
             form: document.getElementById('commentForm'),
-            name: document.getElementById('juryName'),
-            text: document.getElementById('commentText'),
-            online: document.getElementById('onlineCount'),
-            comments: document.getElementById('commentCount'),
-            jury: document.getElementById('juryCount'),
-            views: document.getElementById('totalViews')
+            openBtn: document.getElementById('openModal'),
+            cancelBtn: document.getElementById('cancelBtn')
         };
 
-        // Модальное окно
-        els.openBtn.onclick = () => els.modal.style.display = 'flex';
-        els.closeBtn.onclick = () => els.modal.style.display = 'none';
-        els.cancelBtn.onclick = () => els.modal.style.display = 'none';
-        window.onclick = (e) => { if (e.target === els.modal) els.modal.style.display = 'none'; };
+        ui.openBtn.onclick = () => { ui.modal.style.display = 'grid'; document.body.style.overflow = 'hidden'; };
+        ui.cancelBtn.onclick = () => { ui.modal.style.display = 'none'; document.body.style.overflow = 'auto'; };
 
-        // Онлайн и просмотры
-        const connectedRef = ref(db, '.info/connected');
-        let presenceRef;
-        onValue(connectedRef, snap => {
-            if (snap.val()) {
-                presenceRef = push(onlineRef);
-                set(presenceRef, true);
-                onDisconnect(presenceRef).remove();
-            }
-        });
+        onValue(ref(db, 'online'), s => document.getElementById('onlineCount').innerText = s.size || 0);
+        update(ref(db, 'stats'), { totalViews: increment(1) });
+        onValue(ref(db, 'stats/totalViews'), s => document.getElementById('totalViews').innerText = s.val() || 0);
 
-        onValue(onlineRef, snap => els.online.textContent = snap.size || 0);
-        update(statsRef, { totalViews: increment(1) });
-        onValue(viewsRef, snap => els.views.textContent = snap.val() || 0);
+        onValue(query(ref(db, 'comments'), orderByChild('timestamp')), snap => {
+            const data = []; const users = new Set();
+            snap.forEach(c => { data.unshift(c.val()); users.add(c.val().author); });
+            
+            document.getElementById('commentCount').innerText = data.length;
+            document.getElementById('juryCount').innerText = users.size;
 
-        // Комментарии
-        onValue(query(commentsRef, orderByChild('timestamp')), snap => {
-            const comments = [];
-            const jury = new Set();
-            snap.forEach(child => {
-                const c = child.val();
-                comments.push({ ...c });
-                jury.add(c.author);
-            });
-            comments.reverse();
-
-            els.comments.textContent = comments.length;
-            els.jury.textContent = jury.size;
-
-            if (comments.length === 0) {
-                els.list.innerHTML = '<div class="empty">💭<br>Комментариев пока нет. Будьте первым!</div>';
-                return;
-            }
-
-            els.list.innerHTML = comments.map(c => `
-                <div class="comment">
-                    <div class="avatar" style="background:${c.color}">${c.author[0].toUpperCase()}</div>
-                    <div>
-                        <div class="comment-author">${c.author}</div>
-                        <div class="comment-date">${timeAgo(c.timestamp)}</div>
-                        <div class="comment-text">${c.text.replace(/</g, '&lt;')}</div>
+            ui.list.innerHTML = data.map((c, i) => {
+                const avatarUrl = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(c.author)}`;
+                
+                return `
+                    <div class="comment-card" style="animation: slideUp 0.5s ease-out forwards; animation-delay: ${i * 0.05}s">
+                        <div style="display: flex; gap: 16px;">
+                            <div class="avatar">
+                                <img src="${avatarUrl}" alt="avatar">
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <h4 style="margin: 0; font-family: var(--font-mono); color: var(--primary);">${c.author}</h4>
+                                    <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">${new Date(c.timestamp).toLocaleTimeString()}</span>
+                                </div>
+                                <p style="margin: 8px 0 0; color: #cbd5e1; font-size: 14px;">${c.text}</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         });
 
-        // Отправка комментария
-        els.form.addEventListener('submit', async e => {
+        ui.form.onsubmit = async (e) => {
             e.preventDefault();
-            const name = els.name.value.trim();
-            const text = els.text.value.trim();
-            if (!name || !text) return;
+            const name = document.getElementById('juryName').value;
+            const text = document.getElementById('commentText').value;
 
-            await push(commentsRef, {
+            await push(ref(db, 'comments'), {
                 author: name,
                 text: text,
-                timestamp: new Date().toISOString(),
-                color: colors[hashName(name)]
+                timestamp: new Date().toISOString()
             });
 
-            els.form.reset();
-            els.modal.style.display = 'none';
-        });
-
-        // Тема
-        const toggle = document.getElementById('themeToggle');
-        const saved = localStorage.getItem('theme') || 'dark';
-        if (saved === 'light') document.body.classList.add('light');
-        toggle.textContent = saved === 'light' ? '🌙 Dark' : '☀️ Light';
-        toggle.onclick = () => {
-            document.body.classList.toggle('light');
-            const isLight = document.body.classList.contains('light');
-            toggle.textContent = isLight ? '🌙 Dark' : '☀️ Light';
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            ui.modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            e.target.reset();
         };
     </script>
 </body>
